@@ -20,18 +20,31 @@ function getWeather(cityName) {
     })
         .done(
             function (data) {
+                //console.log(data);
                 weather = data;
-                //console.log(data.weather[0].main);
-                //console.log((weather.main.temp - 273.15).toFixed(0));
-                createPlace(weather);
+                fillWeather(weather);
             }
+        )
+        .fail(
+            function (jqXHR, exception) {
+                let errorText = document.createElement('h3');
+                let st="\r\n";
+                document.getElementById("errorID").innerText=jqXHR.status+" "+jqXHR.statusText+st+"Details: "+jqXHR.responseJSON.message;
+                document.getElementById("picID").src="";
+                document.getElementById("placeID").innerText ="";
+                document.getElementById("weatherID").innerText = "";
+                document.getElementById("temperature").innerText = "";
+                document.getElementById("wind").innerText = "";
+            }
+
         )
 }
 
-function createPlace(weather) {
-    let graphWeather = document.createElement('div');
-    graphWeather.innerHTML = "<h1>Привет!" + weather.weather[0].main+"</h1>";
-
-
-    document.getElementById("Body").appendChild(graphWeather)
+function fillWeather(weather) {
+    document.getElementById("picID").src="http://openweathermap.org/img/wn/"+weather.weather[0].icon+"@2x.png";
+    document.getElementById("errorID").innerText="";
+    document.getElementById("placeID").innerText = weather.name+", "+weather.sys.country;
+    document.getElementById("weatherID").innerText = "Current weather: "+weather.weather[0].main+" ( "+weather.weather[0].description+" )";
+    document.getElementById("temperature").innerText = "Temperature: "+(weather.main.temp - 273.15).toFixed(0)+"°C";
+    document.getElementById("wind").innerText = "Wind: "+weather.wind.speed+"m/s";
 }

@@ -1,3 +1,7 @@
+//TODO навести красоту
+    затестить - сливаются ли несколько css в один
+
+
 doctype html
 html(lang="en")
     head
@@ -7,7 +11,14 @@ html(lang="en")
         style include style.scss
     body#Body
         form#formID(action="#")
-            label(for="searchInp") Input city
+            label#lbl(for="searchInp") Input city
             input#searchInp
             input#submit(type="submit" value="Submit")
             script include main.js
+        #graphWeather
+            #errorID
+            img#picID
+            #placeID
+            #weatherID
+            #temperature
+            #wind
