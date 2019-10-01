@@ -29,7 +29,8 @@ function getWeather(cityName) {
             function (jqXHR, exception) {
                 let errorText = document.createElement('h3');
                 let st="\r\n";
-                document.getElementById("errorID").innerText=jqXHR.status+" "+jqXHR.statusText+st+"Details: "+jqXHR.responseJSON.message;
+                document.getElementById("errorID").innerText=jqXHR.status+" "+jqXHR.statusText+st+"Details: "+jqXHR.responseJSON.message; // <p> для переноса
+                //document.getElementById("errorID").innerHTML=jqXHR.status+" "+jqXHR.statusText+"<br>"+Details: "+jqXHR.responseJSON.message;
                 document.getElementById("picID").src="";
                 document.getElementById("placeID").innerText ="";
                 document.getElementById("weatherID").innerText = "";
