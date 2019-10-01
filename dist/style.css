@@ -1,0 +1,38 @@
+html {
+  overflow: hidden; }
+
+#bodyID {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 15pt; }
+
+#formID {
+  width: 50%;
+  display: flex;
+  justify-content: center; }
+
+#searchInp, #submit, #lbl {
+  font-size: 15pt; }
+
+#graphWeather {
+  height: 400px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+
+#searchInp {
+  margin-left: 20px;
+  flex-grow: 3; }
+
+#placeID {
+  margin-bottom: 20px;
+  font-size: 17pt;
+  font-weight: bold; }
+
+#errorText {
+  white-space: pre; }
