@@ -1,25 +1,24 @@
 import './style.scss'
+const compiledFunction = require('./template.pug');
 
 let APIkey = '74e541dab94c8071bb4282ecb2691ea0';
 let weather;
 
-function processInp() {
-    let cityName = document.getElementById('searchInp').value;
-    getWeather(cityName);
-}
-
-document.getElementById('submit').onclick = processInp;
-
 function fillElements(picSrc, error, place, weather, temperature, wind) {
-    document.getElementById('picID').src = picSrc;
-    document.getElementById('errorID').innerText = error;
-    document.getElementById('placeID').innerText = place;
-    document.getElementById('weatherID').innerText = weather;
-    document.getElementById('temperature').innerText = temperature;
-    document.getElementById('wind').innerText = wind;
+    document.getElementById('graphWeather').innerHTML = compiledFunction({
+        error: error,
+        picSrc:picSrc,
+        place: place,
+        weather: weather,
+        temperature: temperature,
+        wind: wind
+    });
+
+
 }
 
-function getWeather(cityName) {
+function getWeather(event) {
+    let cityName = event.target[0].value;
     $.ajax({
         url: 'https://api.openweathermap.org/data/2.5/weather',
         dataType: 'json',
@@ -58,3 +57,5 @@ function fillWeather(weather) {
         'Wind: ' + weather.wind.speed + 'm/s'
     );
 }
+
+document.getElementById('formID').addEventListener('submit', getWeather);
