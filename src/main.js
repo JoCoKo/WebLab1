@@ -18,6 +18,7 @@ function fillElements(picSrc, error, place, weather, temperature, wind) {
 }
 
 function getWeather(event) {
+    event.preventDefault();
     let cityName = event.target[0].value;
     $.ajax({
         url: 'https://api.openweathermap.org/data/2.5/weather',
