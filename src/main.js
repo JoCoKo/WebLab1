@@ -1,26 +1,25 @@
 import './style.scss'
+
 const compiledFunction = require('./template.pug');
 
 let APIkey = '74e541dab94c8071bb4282ecb2691ea0';
 let weather;
 
-function fillElements(picSrc, error, place, weather, temperature, wind) {
+function fillElements(obj) {
     document.getElementById('graphWeather').innerHTML = compiledFunction({
-        error: error,
-        picSrc:picSrc,
-        place: place,
-        weather: weather,
-        temperature: temperature,
-        wind: wind
+        error: obj.error,
+        picSrc: obj.picSrc,
+        place: obj.place,
+        weather: obj.weather,
+        temperature: obj.temperature,
+        wind: obj.wind
     });
 
 
 }
 
-function getWeather(event) {
-    event.preventDefault();
-    let cityName = event.target[0].value;
-    $.ajax({
+function getWeather(cityName) {
+    return $.ajax({
         url: 'https://api.openweathermap.org/data/2.5/weather',
         dataType: 'json',
         data: {
@@ -28,35 +27,47 @@ function getWeather(event) {
             appid: APIkey
         }
     })
+}
+
+function processWeather(event) {
+    event.preventDefault();
+    let cityName = event.target[0].value;
+    getWeather(cityName)
         .done(
             function (data) {
-                //console.log(data);
-                weather = data;
-                fillWeather(weather);
+                fillWeather(data);
             }
         )
         .fail(
             function (jqXHR) {
-                fillElements('',
-                    jqXHR.status + ' ' + jqXHR.statusText + '\r\n' + 'Details: ' + jqXHR.responseJSON.message,
-                    '',
-                    '',
-                    '',
-                    ''
-                );
+                fillError(jqXHR);
             }
         )
 }
 
 function fillWeather(weather) {
     fillElements(
-        'http://openweathermap.org/img/wn/' + weather.weather[0].icon + '@2x.png',
-        '',
-        weather.name + ', ' + weather.sys.country,
-        'Current weather: ' + weather.weather[0].main + ' ( ' + weather.weather[0].description + ' )',
-        'Temperature: ' + (weather.main.temp - 273.15).toFixed(0) + '°C',
-        'Wind: ' + weather.wind.speed + 'm/s'
-    );
+        {
+            picSrc: 'http://openweathermap.org/img/wn/' + weather.weather[0].icon + '@2x.png',
+            error: "",
+            place: weather.name + ', ' + weather.sys.country,
+            weather: 'Current weather: ' + weather.weather[0].main + ' ( ' + weather.weather[0].description + ' )',
+            temperature: 'Temperature: ' + (weather.main.temp - 273.15).toFixed(0) + '°C',
+            wind: 'Wind: ' + weather.wind.speed + 'm/s'
+        });
 }
 
-document.getElementById('formID').addEventListener('submit', getWeather);
+function fillError(error) {
+    fillElements({
+            picSrc: '',
+            error: error.status + ' ' + error.statusText + '\r\n' + 'Details: ' + error.responseJSON.message,
+            place: '',
+            weather: '',
+            temperature: '',
+            wind: ''
+        }
+    );
+};
+
+
+document.getElementById('formID').addEventListener('submit', processWeather);
