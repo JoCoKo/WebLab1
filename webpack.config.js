@@ -1,4 +1,3 @@
-// Webpack v4
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -7,8 +6,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: {main: './src/main.js'},
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'docs'),
         filename: 'main.js'
+    },
+    node: {
+        fs: "empty"
     },
     module: {
         rules: [
@@ -22,28 +24,24 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: ExtractTextPlugin.extract(
-                    {
-                        fallback: 'style-loader',
-                        use: ['css-loader', 'sass-loader']
-                    })
+                  {
+                      fallback: 'style-loader',
+                      use: ['css-loader', 'sass-loader']
+                  })
             },
             {
                 test: /\.pug$/,
-                loader: 'pug-loader'
+                use: ['pug-loader']
             },
             {
                 test: /\.(png|jpe?g|gif)$/i,
-                use: [
-                    {
-                        loader: 'file-loader',
-                    },
-                ],
+                loader: 'file-loader'
             }
         ]
     },
     plugins: [
         new ExtractTextPlugin(
-            {filename: 'style.css'}
+          {filename: 'style.css'}
         ),
         new HtmlWebpackPlugin({
             template: './src/index.pug',

@@ -98,6 +98,54 @@ eval("\n\nvar pug_has_own_property = Object.prototype.hasOwnProperty;\n\n/**\n *
 
 /***/ }),
 
+/***/ "./src/fillElements.js":
+/*!*****************************!*\
+  !*** ./src/fillElements.js ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return fillElements; });\n//Создать элемент graphWeather. Протестить что у него внутри появился корректный html\nconst compiledFunction = __webpack_require__(/*! ./template.pug */ \"./src/template.pug\");\n\nfunction fillElements(obj) {\n  document.getElementById('graphWeather').innerHTML = compiledFunction({\n    error: obj.error,\n    picSrc: obj.picSrc,\n    place: obj.place,\n    weather: obj.weather,\n    temperature: obj.temperature,\n    wind: obj.wind\n  });\n}\n\n//# sourceURL=webpack:///./src/fillElements.js?");
+
+/***/ }),
+
+/***/ "./src/fillError.js":
+/*!**************************!*\
+  !*** ./src/fillError.js ***!
+  \**************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return fillError; });\nfunction fillError(error, fillElements) {\n  fillElements({\n    picSrc: '',\n    error: 'Error! ' + error.cod + ' ' + error.message + '\\r\\n',\n    place: '',\n    weather: '',\n    temperature: '',\n    wind: ''\n  });\n  return {\n    picSrc: '',\n    error: 'Error! ' + error.cod + ' ' + error.message + '\\r\\n',\n    place: '',\n    weather: '',\n    temperature: '',\n    wind: ''\n  };\n}\n\n//# sourceURL=webpack:///./src/fillError.js?");
+
+/***/ }),
+
+/***/ "./src/fillWeather.js":
+/*!****************************!*\
+  !*** ./src/fillWeather.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return fillWeather; });\nfunction fillWeather(weather, fillElements) {\n  fillElements({\n    picSrc: 'http://openweathermap.org/img/wn/' + weather.weather[0].icon + '@2x.png',\n    error: \"\",\n    place: weather.name + ', ' + weather.sys.country,\n    weather: 'Current weather: ' + weather.weather[0].main + ' ( ' + weather.weather[0].description + ' )',\n    temperature: 'Temperature: ' + (weather.main.temp - 273.15).toFixed(0) + '°C',\n    wind: 'Wind: ' + weather.wind.speed + 'm/s'\n  });\n  return {\n    picSrc: 'http://openweathermap.org/img/wn/' + weather.weather[0].icon + '@2x.png',\n    error: \"\",\n    place: weather.name + ', ' + weather.sys.country,\n    weather: 'Current weather: ' + weather.weather[0].main + ' ( ' + weather.weather[0].description + ' )',\n    temperature: 'Temperature: ' + (weather.main.temp - 273.15).toFixed(0) + '°C',\n    wind: 'Wind: ' + weather.wind.speed + 'm/s'\n  };\n}\n\n//# sourceURL=webpack:///./src/fillWeather.js?");
+
+/***/ }),
+
+/***/ "./src/getWeather.js":
+/*!***************************!*\
+  !*** ./src/getWeather.js ***!
+  \***************************/
+/*! exports provided: getWeather */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getWeather\", function() { return getWeather; });\n// мок для фетча проверка кодов возврата или result'a для разных входных данных\nconst getWeather = async cityName => {\n  let APIkey = '74e541dab94c8071bb4282ecb2691ea0';\n  let result = {\n    weather: null,\n    error: null\n  };\n  console.log(`https://api.openweathermap.org/data/2.5/weather?appid=${APIkey}&q=${cityName}`);\n  result.weather = await fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${APIkey}&q=${cityName}`).then(res => res.json());\n  if (result.weather.cod !== 200) result.error = true;\n  console.log(result);\n  return result;\n};\n\n//# sourceURL=webpack:///./src/getWeather.js?");
+
+/***/ }),
+
 /***/ "./src/main.js":
 /*!*********************!*\
   !*** ./src/main.js ***!
@@ -106,7 +154,19 @@ eval("\n\nvar pug_has_own_property = Object.prototype.hasOwnProperty;\n\n/**\n *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.scss */ \"./src/style.scss\");\n/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_scss__WEBPACK_IMPORTED_MODULE_0__);\n\n\nvar compiledFunction = __webpack_require__(/*! ./template.pug */ \"./src/template.pug\");\n\nvar APIkey = '74e541dab94c8071bb4282ecb2691ea0';\nvar weather;\n\nfunction fillElements(obj) {\n  document.getElementById('graphWeather').innerHTML = compiledFunction({\n    error: obj.error,\n    picSrc: obj.picSrc,\n    place: obj.place,\n    weather: obj.weather,\n    temperature: obj.temperature,\n    wind: obj.wind\n  });\n}\n\nfunction getWeather(cityName) {\n  return $.ajax({\n    url: 'https://api.openweathermap.org/data/2.5/weather',\n    dataType: 'json',\n    data: {\n      q: cityName,\n      appid: APIkey\n    }\n  });\n}\n\nfunction getWeather2(event) {\n  event.preventDefault();\n  var cityName = event.target[0].value;\n  getWeather(cityName).done(function (data) {\n    fillWeather(data);\n  }).fail(function (jqXHR) {\n    fillError(jqXHR);\n  });\n}\n\nfunction fillWeather(weather) {\n  fillElements({\n    picSrc: 'http://openweathermap.org/img/wn/' + weather.weather[0].icon + '@2x.png',\n    error: \"\",\n    place: weather.name + ', ' + weather.sys.country,\n    weather: 'Current weather: ' + weather.weather[0].main + ' ( ' + weather.weather[0].description + ' )',\n    temperature: 'Temperature: ' + (weather.main.temp - 273.15).toFixed(0) + '°C',\n    wind: 'Wind: ' + weather.wind.speed + 'm/s'\n  });\n}\n\nfunction fillError(error) {\n  fillElements({\n    picSrc: '',\n    error: error.status + ' ' + error.statusText + '\\r\\n' + 'Details: ' + error.responseJSON.message,\n    place: '',\n    weather: '',\n    temperature: '',\n    wind: ''\n  });\n}\n\n;\ndocument.getElementById('formID').addEventListener('submit', getWeather2);\n\n//# sourceURL=webpack:///./src/main.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.scss */ \"./src/style.scss\");\n/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_scss__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _processWeather__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./processWeather */ \"./src/processWeather.js\");\n/* harmony import */ var _getWeather__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWeather */ \"./src/getWeather.js\");\n/* harmony import */ var _fillWeather__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./fillWeather */ \"./src/fillWeather.js\");\n/* harmony import */ var _fillError__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fillError */ \"./src/fillError.js\");\n\n\n\n\n\ndocument.getElementById('formID').addEventListener('submit', event => Object(_processWeather__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(event, _getWeather__WEBPACK_IMPORTED_MODULE_2__[\"getWeather\"], _fillWeather__WEBPACK_IMPORTED_MODULE_3__[\"default\"], _fillError__WEBPACK_IMPORTED_MODULE_4__[\"default\"]));\n\n//# sourceURL=webpack:///./src/main.js?");
+
+/***/ }),
+
+/***/ "./src/processWeather.js":
+/*!*******************************!*\
+  !*** ./src/processWeather.js ***!
+  \*******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _fillElements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./fillElements */ \"./src/fillElements.js\");\n\n\nconst processWeather = async (event, getWeather, fillWeather, fillError) => {\n  try {\n    let cityName = event.target[0].value;\n    event.preventDefault();\n    const data = await getWeather(event.target[0].value);\n\n    if (data.error) {\n      await fillError(data.weather, _fillElements__WEBPACK_IMPORTED_MODULE_0__[\"default\"]); //console.log(JSON.stringify(data))\n    } else {\n      await fillWeather(data.weather, _fillElements__WEBPACK_IMPORTED_MODULE_0__[\"default\"]); //console.log(JSON.stringify(data))\n    }\n  } catch (data) {\n    await fillError(data.weather, _fillElements__WEBPACK_IMPORTED_MODULE_0__[\"default\"]);\n  }\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (processWeather);\n\n//# sourceURL=webpack:///./src/processWeather.js?");
 
 /***/ }),
 
