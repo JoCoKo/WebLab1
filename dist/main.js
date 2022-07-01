@@ -142,7 +142,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\nconst getWeather = async cityName => {\n  let APIkey = '74e541dab94c8071bb4282ecb2691ea0';\n  let result = {\n    weather: null,\n    error: null\n  };\n  result.weather = await fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${APIkey}&q=${cityName}`).then(res => res.json());\n  if (result.weather.cod !== 200) result.error = true;\n  return result;\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (getWeather);\n\n//# sourceURL=webpack:///./src/getWeather.js?");
+eval("__webpack_require__.r(__webpack_exports__);\nconst getWeather = async cityName => {\n  let APIkey = '9c7c2f1159d3266db4a0903ef7531264';\n  let result = {\n    weather: null,\n    error: null\n  };\n  result.weather = await fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${APIkey}&q=${cityName}`).then(res => res.json());\n  if (result.weather.cod !== 200) result.error = true;\n  return result;\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (getWeather);\n\n//# sourceURL=webpack:///./src/getWeather.js?");
 
 /***/ }),
 
